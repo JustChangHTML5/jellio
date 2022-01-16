@@ -46,7 +46,7 @@ class Jello {
                     neighbors.push(this.getGel(x, y - 1));
                 }
 
-                var curGel = new Gel(this.gelSize, this.color, [pos[0] + (this.gelSize + 10) * x, pos[1] + (this.gelSize + 10) * y], this.bounciness, this.stressLimit, neighbors);
+                var curGel = new Gel(this.gelSize, this.color, [pos[0] + (this.gelSize + 1) * x, pos[1] + (this.gelSize + 1) * y], this.bounciness, this.stressLimit, neighbors);
                 this.jellos.push(curGel);
 
                 if (x > 0) {
@@ -129,7 +129,7 @@ class Gel {
         var radii = this.size / 2;
         ctx.fillStyle = 'green';
 
-        ctx.fillRect(this.pos[0] - radii, this.pos[1] - radii, this.pos[0] + radii, this.pos[1] + radii);
+        ctx.fillRect(this.pos[0] - radii, this.pos[1] - radii, this.size, this.size);
         console.log(this.pos)
     }
 }
@@ -140,6 +140,9 @@ mainJello.create([10, 10])
 function main() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     mainJello.draw();
+    mainJello.simulate();
+    mainJello.draw();
+    mainJello.simulate();
 }
 
 main();

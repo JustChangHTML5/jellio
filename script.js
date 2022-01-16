@@ -62,7 +62,7 @@ class Jello {
 
     simulate() {
         for (var i = 0; i < this.jellos.length; i++) {
-            var curGel = jellos[i];
+            var curGel = this.jellos[i];
             curGel.simulate();
         }
     }
@@ -90,8 +90,8 @@ class Gel {
     }
 
     simulate() {
-        for (var i = 0; i < neighbors; i++) {
-            var curNeighbor = neighbors[i];
+        for (var i = 0; i < this.neighbors; i++) {
+            var curNeighbor = this.neighbors[i];
             var shootX = this.pos[0] - curNeighbor.pos[0];
             var shootY = this.pos[1] - curNeighbor.pos[0];
             var whole = Math.abs(shootX) + Math.abs(shootY);
@@ -130,7 +130,6 @@ class Gel {
         ctx.fillStyle = 'green';
 
         ctx.fillRect(this.pos[0] - radii, this.pos[1] - radii, this.size, this.size);
-        console.log(this.pos)
     }
 }
 
@@ -141,8 +140,5 @@ function main() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     mainJello.draw();
     mainJello.simulate();
-    mainJello.draw();
-    mainJello.simulate();
 }
-
-main();
+var gameLoop = setInterval(main, 10);

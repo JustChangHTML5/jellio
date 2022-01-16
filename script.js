@@ -30,12 +30,13 @@ class Jello {
     }
 
     getGel(x, y) {
-        return this.jellos[y * this.size[0] + x]
+        console.log(y * this.size[0] + x + "XY")
+        return this.jellos[y + x * this.size[1]]//I hade to flip it :()
     }
 
     create(pos) {
-        for (var y = 0; y < this.size[0]; y++) {
-            for (var x = 0; x < this.size[1]; x++) {
+        for (var x = 0; x < this.size[0]; x++) {
+            for (var y = 0; y < this.size[1]; y++) {
                 var neighbors = [];
 
                 if (x > 0) {
@@ -45,17 +46,19 @@ class Jello {
                 if (y > 0) {
                     neighbors.push(this.getGel(x, y - 1));
                 }
+
                 var curGel = new Gel(this.gelSize, this.color, [pos[0] + this.gelSize * x, pos[1] + this.gelSize * y], this.bounciness, this.stressLimit, neighbors);
+                this.jellos.push(curGel);
 
                 if (x > 0) {
-                    console.log(x)
-                    console.log(y)
+                    console.log(x);
+                    console.log(y);
                     this.getGel(x - 1, y).neighbors.push(this);
                 }
                 
                 if (y > 0) {
-                    console.log(x)
-                    console.log(y)
+                    console.log(x);
+                    console.log(y);
                     this.getGel(x, y - 1).neighbors.push(this);
                 }
             }

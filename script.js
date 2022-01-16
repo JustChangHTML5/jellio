@@ -1,6 +1,11 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
+width = 1000;
+height = 600;
+canvas.width = width;
+canvas.height = height;
+
 Math.dist=function(x1,y1,x2,y2){ 
   if(!x2) x2=0; 
   if(!y2) y2=0;
@@ -18,7 +23,7 @@ class Jello {
         this.stressLimit = stressLimit
         this.gelSize = gelSize;
         this.pATH = null;
-        if (pAth) {
+        if (pATH) {
             this.pATH = pATH;
             //do some crazy calculation to turn image into jelly, keep the gelSize
         }
@@ -28,9 +33,9 @@ class Jello {
         return this.jellos[y * this.size[0] + x]
     }
 
-    create() {
-        for (var x = 0; x < size[0]; x++) {
-            for (var y = 0; y < size[1]; y++) {
+    create(pos) {
+        for (var y = 0; y < this.size[0]; y++) {
+            for (var x = 0; x < this.size[1]; x++) {
                 var neighbors = [];
 
                 if (x > 0) {
@@ -40,13 +45,17 @@ class Jello {
                 if (y > 0) {
                     neighbors.push(this.getGel(x, y - 1));
                 }
-                var curGel = new Gel(this.gelSize, this.color, this.bounciness, this.stressLimit, neighbors);
+                var curGel = new Gel(this.gelSize, this.color, [pos[0] + this.gelSize * x, pos[1] + this.gelSize * y], this.bounciness, this.stressLimit, neighbors);
 
                 if (x > 0) {
+                    console.log(x)
+                    console.log(y)
                     this.getGel(x - 1, y).neighbors.push(this);
                 }
                 
                 if (y > 0) {
+                    console.log(x)
+                    console.log(y)
                     this.getGel(x, y - 1).neighbors.push(this);
                 }
             }
@@ -69,11 +78,11 @@ class Jello {
 }
 
 class Gel {
-    constructor(size, color, bounciness, stressLimit, neighbors) {
+    constructor(size, color, pos, bounciness, stressLimit, neighbors) {
         this.size = size;
         this.color = color;
-        this.pos = [];
-        this.velocity = [];
+        this.pos = pos;
+        this.velocity = [0, 0];
         this.neighbors = [];
         if (neighbors) {
             this.neighbors = neighbors;
@@ -126,6 +135,7 @@ class Gel {
 }
 
 let mainJello = new Jello([10, 10], "green", 1, 0, 10, null);
+mainJello.create(10, 10)
 
 function main() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);

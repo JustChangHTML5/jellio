@@ -30,7 +30,6 @@ class Jello {
     }
 
     getGel(x, y) {
-        console.log(y * this.size[0] + x + "XY")
         return this.jellos[y + x * this.size[1]]//I hade to flip it :()
     }
 
@@ -47,18 +46,14 @@ class Jello {
                     neighbors.push(this.getGel(x, y - 1));
                 }
 
-                var curGel = new Gel(this.gelSize, this.color, [pos[0] + this.gelSize * x, pos[1] + this.gelSize * y], this.bounciness, this.stressLimit, neighbors);
+                var curGel = new Gel(this.gelSize, this.color, [pos[0] + (this.gelSize + 10) * x, pos[1] + (this.gelSize + 10) * y], this.bounciness, this.stressLimit, neighbors);
                 this.jellos.push(curGel);
 
                 if (x > 0) {
-                    console.log(x);
-                    console.log(y);
                     this.getGel(x - 1, y).neighbors.push(this);
                 }
                 
                 if (y > 0) {
-                    console.log(x);
-                    console.log(y);
                     this.getGel(x, y - 1).neighbors.push(this);
                 }
             }
@@ -74,7 +69,7 @@ class Jello {
 
     draw() {
         for (var i = 0; i < this.jellos.length; i++) {
-            var curGel = jellos[i];
+            var curGel = this.jellos[i];
             curGel.draw();
         }
     }
@@ -133,12 +128,14 @@ class Gel {
     draw() {
         var radii = this.size / 2;
         ctx.fillStyle = 'green';
+
         ctx.fillRect(this.pos[0] - radii, this.pos[1] - radii, this.pos[0] + radii, this.pos[1] + radii);
+        console.log(this.pos)
     }
 }
 
 let mainJello = new Jello([10, 10], "green", 1, 0, 10, null);
-mainJello.create(10, 10)
+mainJello.create([10, 10])
 
 function main() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
